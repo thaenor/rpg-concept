@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { ChatInterface } from '../classes/ChatInterface.js';
+import { Persona } from '../firebase/AI.js';
 
 export class Map extends Phaser.Scene {
     constructor() {
@@ -26,9 +27,9 @@ export class Map extends Phaser.Scene {
         this.npcs = this.physics.add.staticGroup();
 
         const npcSetup = [
-            { x: 300, y: 300, color: 0xff0000, type: 'rectangle' }, // Red Square
-            { x: 800, y: 150, color: 0x00ff00, type: 'circle' },    // Green Circle
-            { x: 600, y: 500, color: 0x800080, type: 'triangle' }   // Purple Triangle
+            { id: 'elder_oak', x: 300, y: 300, color: 0xff0000, type: 'rectangle', persona: Persona.RED_SQUARE }, // Red Square
+            { id: 'luna', x: 800, y: 150, color: 0x00ff00, type: 'circle', persona: Persona.GREEN_CIRCLE },    // Green Circle
+            { id: 'mystic_sage', x: 600, y: 500, color: 0x800080, type: 'triangle', persona: Persona.PURPLE_TRIANGLE }   // Purple Triangle
         ];
 
         npcSetup.forEach(config => {
@@ -44,6 +45,10 @@ export class Map extends Phaser.Scene {
             } else {
                 npc = this.add.rectangle(config.x, config.y, 32, 32, config.color);
             }
+
+            // Store persona and ID on the game object
+            npc.persona = config.persona;
+            npc.npcId = config.id;
 
             // The second parameter 'true' creates a Static Body, which generally cannot move.
             this.physics.add.existing(npc, true);
@@ -110,6 +115,9 @@ export class Map extends Phaser.Scene {
         if (closestNpc && minDist < this.chatDistance) {
             if (!this.isChatting) {
                 this.isChatting = true;
+
+                // Set persona and ID, which restores history
+                this.chatInterface.setPersona(closestNpc.persona, closestNpc.npcId);
                 this.chatInterface.show();
             }
         } else {

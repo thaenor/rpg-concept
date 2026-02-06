@@ -82,3 +82,19 @@ body {
 #chat-send:hover {
     background: #45a049;
 }
+.loading-message {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.loading-dots:after {
+    content: '.';
+    animation: dots 1.5s steps(5, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60% { content: '...'; }
+    80%, 100% { content: ''; }
+}
