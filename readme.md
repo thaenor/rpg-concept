@@ -1,5 +1,7 @@
 # Overlord Rising - AI RPG Integration Demo
 
+Game link: https://thaenor.github.io/rpg-concept/
+
 This project demonstrates a 2D RPG game built with **Phaser 3** and **Vite**, integrated with **Google Firebase Vertex AI (Gemini 2.5 Flash)** to create dynamic, persona-driven NPC interactions.
 
 ## 🚀 Features
