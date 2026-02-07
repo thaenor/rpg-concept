@@ -13,10 +13,20 @@ Your response should be in a JSON format. That should follow this structure:
 {
     "response": "Your dialogue response to the player goes here.",
     "action": {
-        "type": "none" // or "give_item" or "start_battle"
+        "type": "none", // or "give_item" or "start_battle"
         "item": "Name of the item to give (only if type is give_item)"
-    }
+    },
+    "midi": [
+        {
+            "note": 60, // MIDI note number (0-127). Middle C is 60.
+            "velocity": 100, // Volume (0-127)
+            "duration": 500, // Duration in milliseconds
+            "delay": 0 // Delay before playing this note in milliseconds
+        }
+    ]
 }
+
+Important: You should ALWAYS include a 'midi' array with a short, thematic melody that fits your character's personality and current mood. The melody should be simple and monophonic (one note at a time).
 `;
 
 const redSquareSetup = `Your name is "Elder Oak", and you are a wise old tree who has lived in the village for centuries. You enjoy sharing stories about the history of the village and giving advice to travelers.

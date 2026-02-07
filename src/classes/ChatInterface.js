@@ -1,4 +1,5 @@
 import { sendMessageToGemini } from '../firebase/AI';
+import { MidiHandler } from './MidiHandler';
 
 export class ChatInterface {
     constructor(scene) {
@@ -11,6 +12,8 @@ export class ChatInterface {
         this.currentPersona = null; // Store current persona
         this.currentNpcId = null;   // Store current NPC ID
         this.conversationHistory = new Map(); // Store history keyed by NPC ID
+
+        this.midiHandler = new MidiHandler();
 
         // Bind context for event listeners
         this.handleSendMessage = this.handleSendMessage.bind(this);
@@ -97,6 +100,11 @@ export class ChatInterface {
             this.removeMessage(loadingId);
             this.addMessage('NPC', aiData.response, 'npc-message', true);
 
+            // Play MIDI if present
+            if (aiData.midi && Array.isArray(aiData.midi)) {
+                this.midiHandler.playSequence(aiData.midi);
+            }
+
             if (aiData.action && aiData.action.type !== 'none') {
                  setTimeout(() => {
                     alert(`Action Triggered: ${aiData.action.type}\nDetails: ${JSON.stringify(aiData.action)}`);
@@ -130,6 +138,11 @@ export class ChatInterface {
 
             this.removeMessage(loadingId);
             this.addMessage('NPC', aiData.response, 'npc-message', true);
+
+            // Play MIDI if present
+            if (aiData.midi && Array.isArray(aiData.midi)) {
+                this.midiHandler.playSequence(aiData.midi);
+            }
 
             if (aiData.action && aiData.action.type !== 'none') {
                 setTimeout(() => {
